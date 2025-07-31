@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed;
+    private float baseMoveSpeed = 6.0f;
     private Vector2 moveInput;
 
     private PlayerInput playerInput;
@@ -45,6 +45,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = moveInput * moveSpeed;
+        rb.velocity = moveInput * baseMoveSpeed;
     }
 }

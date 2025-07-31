@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Animal
+    uniqueID: 644244385
+    locked: 0
+  - name: Player
+    uniqueID: 1053487423
+    locked: 0
