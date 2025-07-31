@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Animal : MonoBehaviour
@@ -7,6 +8,7 @@ public abstract class Animal : MonoBehaviour
     protected float baseMoveSpeed;
     protected float moveRadius;
     protected int goldValue;
+    protected Rigidbody2D rb;
 
     private Vector2 nextPosition;
     private Coroutine coroutine;
@@ -14,15 +16,13 @@ public abstract class Animal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        nextPosition = Random.insideUnitCircle * moveRadius;
+        ComputeNextPosition();
     }
 
     public virtual void Move()
     {
         Vector3 distanceToNextPoint = new Vector3(nextPosition.x, nextPosition.y, 0) - transform.position;
         Vector3 direction = distanceToNextPoint.normalized;
-        Debug.Log(distanceToNextPoint);
-        Debug.Log(direction);
 
         if (distanceToNextPoint.magnitude >= 0.1f)
         {
@@ -39,10 +39,21 @@ public abstract class Animal : MonoBehaviour
 
     IEnumerator WaitAtPoint()
     {
-        yield return new WaitForSeconds(Random.RandomRange(1.5f, 4.0f));
-        nextPosition = Random.insideUnitCircle * moveRadius;
+        yield return new WaitForSeconds(Random.Range(1.5f, 4.0f));
+        ComputeNextPosition();
         coroutine = null;
     }
 
+    private void ComputeNextPosition()
+    {
+        nextPosition = Random.insideUnitCircle * moveRadius;
+    }
+
     protected abstract void MakeSound();
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Object collision occurred");
+        ComputeNextPosition();
+    }
 }
