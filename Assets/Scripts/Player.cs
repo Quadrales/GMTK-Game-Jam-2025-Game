@@ -12,6 +12,10 @@ public class Player : MonoBehaviour
     private InputAction moveAction;
     private Rigidbody2D rb;
 
+    [SerializeField] private Animator animator;
+
+    private bool isFacingRight = true;
+
     void Awake()
     {
         // Initialise components once script is loaded
@@ -46,5 +50,22 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         rb.velocity = moveInput * baseMoveSpeed;
+        animator.SetFloat("Speed", rb.velocity.magnitude);
+
+        CheckToFlipSprite();
+    }
+
+    private void CheckToFlipSprite()
+    {
+        if (isFacingRight && rb.velocity.x < 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+            isFacingRight = false;
+        }
+        else if (!isFacingRight && rb.velocity.x > 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+            isFacingRight = true;
+        }
     }
 }

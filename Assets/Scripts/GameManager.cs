@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject player1Prefab;
     [SerializeField] private GameObject player2Prefab;
-    private Vector3 player1StartPos = new Vector3(-8, -3, 0);
-    private Vector3 player2StartPos = new Vector3(8, 3, 0);
+    private Vector3 player1StartPos = new Vector3(8, 3, 0);
+    private Vector3 player2StartPos = new Vector3(24, 3, 0);
 
     [SerializeField] private GameObject cowPrefab;
     [SerializeField] private GameObject pigPrefab;
@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Starting game...");
         Instantiate(player1Prefab, player1StartPos, Quaternion.identity);
         Instantiate(player2Prefab, player2StartPos, Quaternion.identity);
 
@@ -58,10 +57,9 @@ public class GameManager : MonoBehaviour
 
     private AnimalType TrySpawnAnimal()
     {
-        Debug.Log("Trying to spawn animal");
         List<AnimalType> animalTypes = difficultyData.AnimalTypes;
         List<float> spawnChances = difficultyData.SpawnChances;
-        float randomProbability = Random.Range(0.0f, 1.0f);
+        float randomProbability = Random.value;
 
         // Loop through each animal and check if it should be spawned
         for (int i = 0; i < animalTypes.Count; i++)
