@@ -5,12 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DifficultyData", menuName = "Data/Difficulty")]
 public class DifficultyData : ScriptableObject
 {
-    public enum Animals
-    {
-        Cow,
-        Pig,
-        Chicken
-    };
+    [SerializeField] private List<AnimalType> animalTypes; // In order of animals enum
+    public List<AnimalType> AnimalTypes => animalTypes;
 
-    [SerializeField] private List<float> animalSpawnChances; // In order of animals enum
+    [SerializeField] private List<float> spawnChances;
+    public List<float> SpawnChances => spawnChances;
 }

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0924e337b7c64db44bf6dfbeed3edad8, type: 3}
   m_Name: Easy Difficulty
   m_EditorClassIdentifier: 
-  animalSpawnChances:
+  animalTypes: 000000000100000002000000
+  spawnChances:
   - 0.8
   - 0.2
   - 0
