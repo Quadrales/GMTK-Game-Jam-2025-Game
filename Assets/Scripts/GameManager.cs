@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject player1Prefab;
     [SerializeField] private GameObject player2Prefab;
-    private Vector3 player1StartPos = new Vector3(8, 3, 0);
-    private Vector3 player2StartPos = new Vector3(24, 3, 0);
+    private Vector3 player1StartPos = new Vector3(8, 8, 0);
+    private Vector3 player2StartPos = new Vector3(20, 8, 0);
 
     [SerializeField] private GameObject cowPrefab;
     [SerializeField] private GameObject pigPrefab;
