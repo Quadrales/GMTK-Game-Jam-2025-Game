@@ -1,32 +1,83 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     private DifficultyData difficultyData;
 
     [SerializeField] private GameObject player1Prefab;
     [SerializeField] private GameObject player2Prefab;
     private Vector3 player1StartPos = new Vector3(8, 8, 0);
     private Vector3 player2StartPos = new Vector3(20, 8, 0);
+    [SerializeField] private TextMeshProUGUI player1GoldText;
+    [SerializeField] private TextMeshProUGUI player2GoldText;
 
     [SerializeField] private GameObject cowPrefab;
     [SerializeField] private GameObject pigPrefab;
     [SerializeField] private GameObject chickenPrefab;
 
     [SerializeField] private BoxCollider2D animalSpawnArea;
+    [SerializeField] private LayerMask animalLayer;
     private Coroutine coroutine;
 
-    private int maxAnimals = 25;
+    private int maxAnimals = 30;
     private int spawnedAnimalsCount = 0;
 
     public void SetDifficultyData(DifficultyData data)
     {
         difficultyData = data;
+    }
+
+    public void TrySendAnimalsToBarn(Collider2D lassoCollider, Player player)
+    {
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.SetLayerMask(animalLayer);
+        filter.useLayerMask = true;
+
+        // List of animals inside the lasso
+        List<Collider2D> hits = new List<Collider2D>();
+        lassoCollider.OverlapCollider(filter, hits);
+
+        if (hits.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var hit in hits)
+        {
+            Animal animal = hit.GetComponent<Animal>();
+
+            // Increment player gold
+            if (player != null)
+            {
+                player.goldCount += animal.goldValue;
+                UpdatePlayerGoldText(player.goldCount, player);
+                spawnedAnimalsCount -= 1;
+            }
+
+            // Destroy animal object
+            GameObject animalObject = animal.gameObject;
+            Destroy(animalObject);
+        }
+    }
+
+    private void Awake()
+    {
+        // Ensure only one instance exists
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
     }
 
     // Start is called before the first frame update
@@ -66,11 +117,25 @@ public class GameManager : MonoBehaviour
         
     }
 
+    private void UpdatePlayerGoldText(int goldValue, Player player)
+    {
+        PlayerInput input = player.GetComponent<PlayerInput>();
+
+        if (input.playerIndex == 0)
+        {
+            player1GoldText.SetText(goldValue.ToString());
+        }
+        else
+        {
+            player2GoldText.SetText(goldValue.ToString());
+        }
+    }
+
     private IEnumerator SpawnAnimalsCoroutine()
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(3f, 5f));
+            yield return new WaitForSeconds(Random.Range(1.2f, 3f));
 
             AnimalType animal = TrySpawnAnimal();
             if (!animal.Equals(AnimalType.None))

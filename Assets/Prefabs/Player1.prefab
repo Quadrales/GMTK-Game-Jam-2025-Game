@@ -146,7 +146,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 183
+    m_Bits: 695
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -302,6 +302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74c3a115cac952647892f9c0a2139591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goldCount: 0
+  lassoPrefab: {fileID: 884547527637636230, guid: f9603eed67328b24faa93494e931ff95, type: 3}
   animator: {fileID: 4910367537223566679}
 --- !u!114 &5649623354385207429
 MonoBehaviour:

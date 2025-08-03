@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2693813245437491570}
   - component: {fileID: 5308796138243333832}
   - component: {fileID: 6613908094070638209}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583a14e6ae395584cb1b6c10e2e0f46c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goldValue: 0
 --- !u!61 &5308796138243333832
 BoxCollider2D:
   m_ObjectHideFlags: 0

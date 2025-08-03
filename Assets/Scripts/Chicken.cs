@@ -6,7 +6,7 @@ public class Chicken : Animal
 {
     private void Awake()
     {
-        baseMoveSpeed = 5.0f;
+        baseMoveSpeed = 6.5f;
         goldValue = 8;
         animator = GetComponent<Animator>();
     }

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public abstract class Animal : MonoBehaviour
 {
+    public int goldValue;
     protected float baseMoveSpeed;
-    protected int goldValue;
     protected Animator animator;
 
     private Vector2 nextPosition;
@@ -40,7 +40,7 @@ public abstract class Animal : MonoBehaviour
 
     IEnumerator WaitAtPoint()
     {
-        yield return new WaitForSeconds(Random.Range(1.5f, 4.0f));
+        yield return new WaitForSeconds(Random.Range(0.5f, 2.2f));
         ComputeNextPosition();
         coroutine = null;
     }

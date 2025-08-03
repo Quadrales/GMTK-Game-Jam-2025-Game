@@ -6,7 +6,7 @@ public class Pig : Animal
 {
     private void Awake()
     {
-        baseMoveSpeed = 2.0f;
+        baseMoveSpeed = 3.2f;
         goldValue = 5;
         animator = GetComponent<Animator>();
     }

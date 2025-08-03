@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animalTypes: 000000000100000002000000
   spawnChances:
-  - 0.8
+  - 0.4
   - 0.2
-  - 0
+  - 0.4

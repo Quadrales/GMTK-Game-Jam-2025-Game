@@ -14,7 +14,7 @@ TagManager:
   - 
   - P1
   - P2
-  - 
+  - Animal
   - 
   - 
   - 
@@ -46,4 +46,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1053487423
+    locked: 0
+  - name: Fence
+    uniqueID: 3113899299
     locked: 0
