@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     private Vector2 moveInput;
 
     private PlayerInput playerInput;
+    private InputActionAsset inputAsset;
+    private InputActionMap playerInputMap;
     private InputAction moveAction;
     private Rigidbody2D rb;
 
@@ -25,17 +27,6 @@ public class Player : MonoBehaviour
         // Disable audio listener for any player other than player 1
         GetComponentInChildren<AudioListener>().enabled = (playerInput.playerIndex == 0);
 
-        // Keep player action maps separate for each player
-        if (playerInput.playerIndex == 0)
-        {
-            playerInput.defaultActionMap = "Player";
-            gameObject.name = "Player 1";
-        }
-        else if (playerInput.playerIndex == 1)
-        {
-            playerInput.defaultActionMap = "Player2";
-            gameObject.name = "Player 2";
-        }
 
         moveAction = playerInput.actions["Move"];
     }
@@ -47,13 +38,8 @@ public class Player : MonoBehaviour
 
     private void OnDisable()
     {
+        //playerInputMap.Disable();
         moveAction.Disable();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame

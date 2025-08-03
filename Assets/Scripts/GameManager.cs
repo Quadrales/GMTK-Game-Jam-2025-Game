@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 public class GameManager : MonoBehaviour
 {
     private DifficultyData difficultyData;
 
-    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject player1Prefab;
+    [SerializeField] private GameObject player2Prefab;
     private Vector3 player1StartPos = new Vector3(8, 8, 0);
     private Vector3 player2StartPos = new Vector3(20, 8, 0);
 
@@ -18,7 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BoxCollider2D animalSpawnArea;
     private Coroutine coroutine;
 
-    private int maxAnimals = 30;
+    private int maxAnimals = 25;
     private int spawnedAnimalsCount = 0;
 
     public void SetDifficultyData(DifficultyData data)
@@ -29,10 +32,32 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(playerPrefab, player1StartPos, Quaternion.identity);
-        Instantiate(playerPrefab, player2StartPos, Quaternion.identity);
+        GameObject player1 = Instantiate(player1Prefab, player1StartPos, Quaternion.identity);
+        GameObject player2 = Instantiate(player2Prefab, player2StartPos, Quaternion.identity);
+
+        AssignPlayerInputs(player1, player2);
 
         coroutine = StartCoroutine(SpawnAnimalsCoroutine());
+    }
+
+    private void AssignPlayerInputs(GameObject player1, GameObject player2)
+    {
+        Keyboard keyboard = Keyboard.current;
+        Mouse mouse = Mouse.current;
+
+        PlayerInput p1Input = player1.GetComponent<PlayerInput>();
+        PlayerInput p2Input = player2.GetComponent<PlayerInput>();
+
+        // Assign devices manually so both players can use same device
+        // Player1 - WASD
+        InputUser.PerformPairingWithDevice(keyboard, p1Input.user);
+        InputUser.PerformPairingWithDevice(mouse, p1Input.user);
+        p1Input.SwitchCurrentControlScheme("Keyboard&Mouse", keyboard, mouse);
+
+        // Player2 - Arrow Keys
+        InputUser.PerformPairingWithDevice(keyboard, p2Input.user);
+        InputUser.PerformPairingWithDevice(mouse, p2Input.user);
+        p2Input.SwitchCurrentControlScheme("Keyboard&Mouse", keyboard, mouse);
     }
 
     // Update is called once per frame
@@ -45,7 +70,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(3f, 6f));
+            yield return new WaitForSeconds(Random.Range(3f, 5f));
 
             AnimalType animal = TrySpawnAnimal();
             if (!animal.Equals(AnimalType.None))
@@ -60,20 +85,21 @@ public class GameManager : MonoBehaviour
         List<AnimalType> animalTypes = difficultyData.AnimalTypes;
         List<float> spawnChances = difficultyData.SpawnChances;
         float randomProbability = Random.value;
+        float prevSpawnChance = spawnChances[0];
 
         // Loop through each animal and check if it should be spawned
         for (int i = 0; i < animalTypes.Count; i++)
         {
             AnimalType animal = animalTypes[i];
-            Debug.Log("Animal: " + animal);
             float spawnChance = spawnChances[i];
 
             // Add additional chance of previous animal for handling lower chances than first
             if (i > 0)
             {
-                spawnChance += spawnChances[i - 1];
+                spawnChance += prevSpawnChance;
             }
 
+            // Spawn animal based on random probability
             if (spawnChance != 0.0f)
             {
                 if (randomProbability <= spawnChance)
@@ -81,6 +107,9 @@ public class GameManager : MonoBehaviour
                     return animal;
                 }
             }
+
+            // Set previous spawn chance for next spawn attempt
+            prevSpawnChance = spawnChance;
         }
         return AnimalType.None;
     }

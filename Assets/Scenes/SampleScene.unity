@@ -2296,7 +2296,7 @@ MonoBehaviour:
   m_NotificationBehavior: 0
   m_MaxPlayerCount: 2
   m_AllowJoining: 1
-  m_JoinBehavior: 1
+  m_JoinBehavior: 2
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -2331,7 +2331,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0.5
+    width: 1
     height: 1
 --- !u!1 &751439355
 GameObject:
@@ -3361,7 +3361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0e880a3a47454e438d5a725bb99fbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 7553107412815232056, guid: af3ffa00c41763e42a2a4b892b5a7ac2, type: 3}
+  player1Prefab: {fileID: 759640444053912204, guid: 159eb6dbbc77d7d41a45972867593028, type: 3}
+  player2Prefab: {fileID: 9156924191348146776, guid: 67aa74ad43458e048868ff6afe3b6c4c, type: 3}
   cowPrefab: {fileID: 8119893851829165415, guid: 52fb0a959e8b9d046b6130d69d50728b, type: 3}
   pigPrefab: {fileID: 5027573576359569124, guid: b76ed4aaa7d9b58468ca19338cf05ac8, type: 3}
   chickenPrefab: {fileID: 7197197815964313370, guid: e9a7bcd6ead53274cab2840da1a0ed7a, type: 3}
