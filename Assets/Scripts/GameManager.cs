@@ -7,18 +7,18 @@ public class GameManager : MonoBehaviour
 {
     private DifficultyData difficultyData;
 
-    [SerializeField] private GameObject player1Prefab;
-    [SerializeField] private GameObject player2Prefab;
+    [SerializeField] private GameObject playerPrefab;
     private Vector3 player1StartPos = new Vector3(8, 8, 0);
     private Vector3 player2StartPos = new Vector3(20, 8, 0);
 
     [SerializeField] private GameObject cowPrefab;
     [SerializeField] private GameObject pigPrefab;
+    [SerializeField] private GameObject chickenPrefab;
 
     [SerializeField] private BoxCollider2D animalSpawnArea;
     private Coroutine coroutine;
 
-    private int maxAnimals = 25; // Use later to keep animals from spawning if there are too many on screen
+    private int maxAnimals = 30;
     private int spawnedAnimalsCount = 0;
 
     public void SetDifficultyData(DifficultyData data)
@@ -29,8 +29,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(player1Prefab, player1StartPos, Quaternion.identity);
-        Instantiate(player2Prefab, player2StartPos, Quaternion.identity);
+        Instantiate(playerPrefab, player1StartPos, Quaternion.identity);
+        Instantiate(playerPrefab, player2StartPos, Quaternion.identity);
 
         coroutine = StartCoroutine(SpawnAnimalsCoroutine());
     }
@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < animalTypes.Count; i++)
         {
             AnimalType animal = animalTypes[i];
+            Debug.Log("Animal: " + animal);
             float spawnChance = spawnChances[i];
 
             // Add additional chance of previous animal for handling lower chances than first
@@ -88,11 +89,11 @@ public class GameManager : MonoBehaviour
     {
         if (spawnedAnimalsCount >= maxAnimals) return;
 
-        Debug.Log("Spawning animal...");
         GameObject animalPrefab = (animal) switch
         {
             (AnimalType.Cow) => cowPrefab,
             (AnimalType.Pig) => pigPrefab,
+            (AnimalType.Chicken) => chickenPrefab,
             _ => null
         };
 
@@ -108,8 +109,8 @@ public class GameManager : MonoBehaviour
     {
         Vector2 size = animalSpawnArea.size;
 
-        float x = Random.Range(-size.x / 2f, size.x / 2f);
-        float y = Random.Range(-size.y / 2f, size.y / 2f);
+        float x = Random.Range(0, size.x / 2f) + animalSpawnArea.offset.x;
+        float y = Random.Range(0, size.y / 2f) + animalSpawnArea.offset.y;
 
         return new Vector3(x, y, 0);
     }

@@ -22,6 +22,21 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerInput = GetComponent<PlayerInput>();
 
+        // Disable audio listener for any player other than player 1
+        GetComponentInChildren<AudioListener>().enabled = (playerInput.playerIndex == 0);
+
+        // Keep player action maps separate for each player
+        if (playerInput.playerIndex == 0)
+        {
+            playerInput.defaultActionMap = "Player";
+            gameObject.name = "Player 1";
+        }
+        else if (playerInput.playerIndex == 1)
+        {
+            playerInput.defaultActionMap = "Player2";
+            gameObject.name = "Player 2";
+        }
+
         moveAction = playerInput.actions["Move"];
     }
 

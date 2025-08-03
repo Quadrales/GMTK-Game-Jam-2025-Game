@@ -6,18 +6,15 @@ using UnityEngine;
 public abstract class Animal : MonoBehaviour
 {
     protected float baseMoveSpeed;
-    protected float moveRadius;
     protected int goldValue;
-    protected Rigidbody2D rb;
+    protected Animator animator;
 
     private Vector2 nextPosition;
+    private int spawnOffsetX = 7;
+    private int spawnOffsetY = 9;
+    private int spawnSizeX = 17;
+    private int spawnSizeY = 9;
     private Coroutine coroutine;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        ComputeNextPosition();
-    }
 
     public virtual void Move()
     {
@@ -27,6 +24,10 @@ public abstract class Animal : MonoBehaviour
         if (distanceToNextPoint.magnitude >= 0.1f)
         {
             transform.position += direction * baseMoveSpeed * Time.deltaTime;
+            if (animator != null)
+            {
+                animator.SetFloat("DistanceAway", distanceToNextPoint.magnitude);
+            }
         }
         else
         {
@@ -44,16 +45,25 @@ public abstract class Animal : MonoBehaviour
         coroutine = null;
     }
 
-    private void ComputeNextPosition()
+    protected void ComputeNextPosition()
     {
-        nextPosition = Random.insideUnitCircle * moveRadius;
+        // I know this way of doing this is bad but this is the price to pay for using an abstract class
+        // which cannot have serialized fields
+        nextPosition = new Vector2(Random.Range(spawnOffsetX, spawnSizeX + spawnOffsetX),
+                                   Random.Range(spawnOffsetY, spawnSizeY + spawnOffsetY));
     }
 
     protected abstract void MakeSound();
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Object collision occurred");
+        // Stop the wait coroutine if currently active, to immediately readjust animal movement
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+            coroutine = null;
+        }
+
         ComputeNextPosition();
     }
 }

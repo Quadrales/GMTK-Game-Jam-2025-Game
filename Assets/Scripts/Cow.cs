@@ -6,14 +6,15 @@ public class Cow : Animal
 {
     private void Awake()
     {
-        baseMoveSpeed = 1.0f;
-        moveRadius = 4.0f;
+        baseMoveSpeed = 1.2f;
         goldValue = 3;
+        animator = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        ComputeNextPosition();
     }
 
     // Update is called once per frame

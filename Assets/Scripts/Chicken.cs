@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pig : Animal
+public class Chicken : Animal
 {
     private void Awake()
     {
-        baseMoveSpeed = 2.0f;
-        goldValue = 5;
+        baseMoveSpeed = 5.0f;
+        goldValue = 8;
         animator = GetComponent<Animator>();
     }
 
